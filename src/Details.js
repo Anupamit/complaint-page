@@ -1,17 +1,22 @@
 import React from 'react'
+import'./App.css'
+// import db from './fire'
 
 function Details(props) {
+    // const fethcData=()=>{
+    //     db.collection('complaint')
+    // }
     return (
         <div>
             {
-                <table>
+                <table className='table'>
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>MobileNo.</th>
-                            <th>Complaint</th>
                             <th>ComplaintType</th>
                             <th>Concerned Person</th>
+                            <th>Complaint</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -20,9 +25,9 @@ function Details(props) {
                                 <tr key={i}>
                                     <td>{detail.name}</td>
                                     <td>{detail.mobileno}</td>
-                                    <td>{detail.complaint}</td>
                                     <td>{detail.complaintType}</td>
                                     <td>{detail.concerned}</td>
+                                    <td>{detail.complaint}</td>
                                 </tr>
                             )
                         })}
