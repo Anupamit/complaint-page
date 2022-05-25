@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import Details from './Details'
+import db from './fire';
+import { collection, addDoc } from "firebase/firestore"; 
+import './App.css';
 
 function Complaint() {
     const [name,setName]=useState('')
     const [mobileno,setMobileno]=useState('')
-    const [complaint,setComplaint]=useState('')
     const [complaintType,setComplaintType]=useState('')
     const [concerned,setConcerned]=useState('')
-    const[showdetail,setShowdetail]=useState(false)
-    const[userdetail,setUserdetail]=useState([])
+    const [complaint,setComplaint]=useState('')
+    const [showdetail,setShowdetail]=useState(false)
+    const [userdetail,setUserdetail]=useState([])
 
     const fullName=(event)=>{
         console.log(event.target.value);
@@ -31,6 +34,14 @@ function Complaint() {
             alert('Mobile Number must be of 10 Digits')
         }
     }
+    const complainttype=(event)=>{
+        console.log(event.target.value);
+        setComplaintType(event.target.value)
+    }
+    const concernedPerson=(event)=>{
+        console.log(event.target.value);
+        setConcerned(event.target.value)
+    }
     const complaintBox=(event)=>{
         console.log(event.target.value);
         let complaint=event.target.value
@@ -41,58 +52,57 @@ function Complaint() {
             alert("Complent box length is not more than 200 digits")
         }
     }
-    const complainttype=(event)=>{
-        console.log(event.target.value);
-        setComplaintType(event.target.value)
-    }
-    const concernedPerson=(event)=>{
-        console.log(event.target.value);
-        setConcerned(event.target.value)
-    }
-    const submit=()=>{
+    const submit= async ()=>{
         if (name === '') {
             alert('Name feild is empty')
         }else if (mobileno.length !== 10) {
             alert('Mobile number is not filled completely')
-        }else if (complaint === '') {
-            alert('Plese Write complaint')
         }else if (complaintType === '') {
             alert('Plse select type of complaints')
         }else if (concerned === '') {
             alert('Plese select the concerned person')
-        }if ((name.length > 0 && name.length < 16) && (mobileno.length > 0 && mobileno.length < 11)
-        && (complaint.length > 0 && complaint.length < 201) 
-        && complaintType.length > 0 && concerned.length > 0) {
+        }else if (complaint === '') {
+            alert('Plese Write complaint')
+        }if ((name.length > 0 && name.length < 16) 
+            && (mobileno.length > 0 
+            && mobileno.length < 11) 
+            && complaintType.length > 0 
+            && concerned.length > 0 
+            && (complaint.length > 0 && complaint.length < 201)) {
             setShowdetail(true)
-            const print={name,mobileno,complaint,complaintType,concerned}
+            const print={name,mobileno,complaintType,concerned,complaint}
             setUserdetail([...userdetail,print])
             console.log(userdetail);
+        try {
+            const ref = collection(db, "complaints")
+            const docRef = await addDoc(ref, print);
+            console.log("Document written with ID: ", docRef.id);
+            // payment
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            // refund
+        }
         }
     }
     const reset=()=>{
         setName('')
         setMobileno('')
-        setComplaint('')
         setComplaintType('')
         setConcerned('')
+        setComplaint('')
         setUserdetail([])
         setShowdetail(false)
     }
     return (
     <div>
-        <header>
-            <h1>Complaint Box</h1>
-        </header>
         <div>
-            <input placeholder='Name' type='text' value={name} onChange={fullName}/>
+            <header className='header'>
+                <h1>Complaint Box</h1>
+            </header>
         </div>
-        <div>
-            <input placeholder='mobile No.' type='number' value={mobileno} onChange={mobileNo}/>
-        </div>
-        <div>
-            <input placeholder='Complaint Box' type='text' value={complaint} onChange={complaintBox}/> 
-        </div>
-        <div>
+        <div className='form'>
+            <input placeholder='Your Name' type='text' value={name} onChange={fullName}/>
+            <input placeholder='Your Mobile No.' type='number' value={mobileno} onChange={mobileNo}/>
             <select value={complaintType} onChange={complainttype}>
                 <option>Choose Complaint Type</option>
                 <option>Acedmics</option>
@@ -102,8 +112,6 @@ function Complaint() {
                 <option>Sports</option>
                 <option>Others</option>
             </select>
-        </div>
-        <div>
             <select value={concerned} onChange={concernedPerson}>
                 <option>Concerned Person</option>
                 <option>Anubhav Sir</option>
@@ -111,11 +119,10 @@ function Complaint() {
                 <option>Sumit Sir</option>
                 <option>Gudiya Maam</option>
             </select>
-        </div>
-        <div>
-            <button onClick={submit}>Submit</button>
-            <button>Edit</button>
-            <button onClick={reset}>Reset</button>
+            <textarea placeholder='Your Complaint' type='text' value={complaint} onChange={complaintBox}/> 
+            <button className='button1' onClick={submit}>Submit</button>
+            <button className='button2'>Edit</button>
+            <button className='button3' onClick={reset}>Reset</button>
         </div>
         <div>
             {showdetail && <Details userdetail={userdetail}/>}
