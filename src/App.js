@@ -3,7 +3,7 @@ import Complaint from './Complaint';
 
 function App() {
   return (
-    <div className="App">
+    <div className="body">
       <Complaint/>
     </div>
   );
