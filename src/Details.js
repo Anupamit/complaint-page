@@ -1,6 +1,4 @@
 import React from 'react'
-import'./App.css'
-// import db from './fire'
 
 function Details(props) {
     // const fethcData=()=>{
@@ -12,10 +10,10 @@ function Details(props) {
                 <table className='table'>
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>MobileNo.</th>
-                            <th>ComplaintType</th>
-                            <th>Concerned Person</th>
+                            <th>Name </th>
+                            <th>MobileNo </th>
+                            <th>Complaint Type </th>
+                            <th>Concerned Person </th>
                             <th>Complaint</th>
                         </tr>
                     </thead>
