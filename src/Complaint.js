@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import Details from './Details'
 import db from './fire';
-import { collection, addDoc } from "firebase/firestore"; 
-import './App.css';
+import { collection, addDoc , getDocs} from "firebase/firestore"; 
+
 
 function Complaint() {
     const [name,setName]=useState('')
@@ -10,8 +10,8 @@ function Complaint() {
     const [complaintType,setComplaintType]=useState('')
     const [concerned,setConcerned]=useState('')
     const [complaint,setComplaint]=useState('')
-    const [showdetail,setShowdetail]=useState(false)
     const [userdetail,setUserdetail]=useState([])
+    const [cd,setCd]=useState([])
 
     const fullName=(event)=>{
         console.log(event.target.value);
@@ -58,28 +58,29 @@ function Complaint() {
         }else if (mobileno.length !== 10) {
             alert('Mobile number is not filled completely')
         }else if (complaintType === '') {
-            alert('Plse select type of complaints')
+            alert('Please select type of complaints')
         }else if (concerned === '') {
-            alert('Plese select the concerned person')
+            alert('Please select the concerned person')
         }else if (complaint === '') {
-            alert('Plese Write complaint')
+            alert('Please Write complaint')
         }if ((name.length > 0 && name.length < 16) 
             && (mobileno.length > 0 
             && mobileno.length < 11) 
             && complaintType.length > 0 
             && concerned.length > 0 
             && (complaint.length > 0 && complaint.length < 201)) {
-            setShowdetail(true)
             const print={name,mobileno,complaintType,concerned,complaint}
             setUserdetail([...userdetail,print])
             console.log(userdetail);
+            
         try {
             const ref = collection(db, "complaints")
             const docRef = await addDoc(ref, print);
             console.log("Document written with ID: ", docRef.id);
             // payment
-        } catch (e) {
-            console.error("Error adding document: ", e);
+            fetchData()
+        } catch (event) {
+            console.error("Error adding document: ", event);
             // refund
         }
         }
@@ -91,8 +92,28 @@ function Complaint() {
         setConcerned('')
         setComplaint('')
         setUserdetail([])
-        setShowdetail(false)
     }
+
+
+    const fetchData = async ()=>{
+        console.log('heeeeee');
+        let complaintsData = []
+        const querySnapshot = await getDocs(collection(db, "complaints"));
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          let data = doc.data()
+          complaintsData.push(data)
+       })
+       setCd(complaintsData)
+    }
+
+    useEffect(()=>{
+
+        fetchData()
+
+    }, [])
+
     return (
     <div>
         <div>
@@ -119,13 +140,13 @@ function Complaint() {
                 <option>Sumit Sir</option>
                 <option>Gudiya Maam</option>
             </select>
-            <textarea placeholder='Your Complaint' type='text' value={complaint} onChange={complaintBox}/> 
+            <textarea placeholder='Type Your Complaint in 200 words' type='text' value={complaint} onChange={complaintBox}/> 
             <button className='button1' onClick={submit}>Submit</button>
             <button className='button2'>Edit</button>
             <button className='button3' onClick={reset}>Reset</button>
         </div>
         <div>
-            {showdetail && <Details userdetail={userdetail}/>}
+             <Details userdetail={cd}/>
         </div>
     </div>
     )
