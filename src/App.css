@@ -7,7 +7,6 @@ body {
 header {
   background-color: DodgerBlue;
   padding: 3px;
-  font-family: Sans-Serif;
 }
 
 h1 {
@@ -79,12 +78,14 @@ table {
 th {
   background-color: green;
   color: white;
-}
-
-th, td {
   padding: 8px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+}
+
+td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
 }
 
 tr:hover {background-color: coral;}
