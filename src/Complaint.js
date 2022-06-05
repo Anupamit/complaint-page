@@ -12,6 +12,7 @@ function Complaint() {
     const [complaint,setComplaint]=useState('')
     const [userdetail,setUserdetail]=useState([])
     const [cd,setCd]=useState([])
+    const [showdbpage,setShowdbpage]=useState(false)
 
     const fullName=(event)=>{
         console.log(event.target.value);
@@ -33,6 +34,7 @@ function Complaint() {
         }else if (length >= 11) {
             alert('Mobile Number must be of 10 Digits')
         }
+        fetchData()
     }
     const complainttype=(event)=>{
         console.log(event.target.value);
@@ -72,6 +74,7 @@ function Complaint() {
             const print={name,mobileno,complaintType,concerned,complaint}
             setUserdetail([...userdetail,print])
             console.log(userdetail);
+            reset()
             
         try {
             const ref = collection(db, "complaints")
@@ -101,24 +104,28 @@ function Complaint() {
         const querySnapshot = await getDocs(collection(db, "complaints"));
         querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-          let data = doc.data()
-          complaintsData.push(data)
-       })
-       setCd(complaintsData)
+        console.log(doc.id, " => ", doc.data());
+        let data = doc.data()
+        data.id = doc.id
+        complaintsData.push(data)
+        })
+        setCd(complaintsData)
     }
 
     useEffect(()=>{
-
         fetchData()
-
     }, [])
 
+    const dbPage=()=>{
+        setShowdbpage(true)
+        console.log('dbpage click');
+        window.location.href = '/addcomplaint'
+    }
     return (
     <div>
         <div>
             <header className='header'>
-                <h1>Complaint Box</h1>
+                <h1><a href="view">Complaint Box</a></h1>
             </header>
         </div>
         <div className='form'>
@@ -142,11 +149,10 @@ function Complaint() {
             </select>
             <textarea placeholder='Type Your Complaint in 200 words' type='text' value={complaint} onChange={complaintBox}/> 
             <button className='button1' onClick={submit}>Submit</button>
-            <button className='button2'>Edit</button>
-            <button className='button3' onClick={reset}>Reset</button>
+            <a href="addcomplaint"><button className='button2' onClick={dbPage}>Database</button></a>
         </div>
         <div>
-             <Details userdetail={cd}/>
+            {showdbpage && <Details userdetail={cd} custDelete={setCd} fetchData1={fetchData}/> }
         </div>
     </div>
     )
