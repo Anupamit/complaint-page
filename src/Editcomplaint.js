@@ -158,7 +158,7 @@ function Editcomplaint() {
                     </select>
                     <label><b>Type Complaint</b></label>
                     <textarea placeholder='Type Your Complaint in 200 words' type='text' value={complaint} onChange={complaintBox}/> 
-                    <button className='button1' onClick={submit}>Submit</button>
+                    <button className='button1' onClick={submit}>Update Database</button>
                 </div>
             </div>
         </div>
