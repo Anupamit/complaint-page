@@ -6,7 +6,6 @@ import { collection, getDocs} from "firebase/firestore";
 
 function ViewComplaint() {
     const [cd,setCd]=useState([])
-    const [showdbpage,setShowdbpage]=useState(false)
 
     const backComplaint=()=>{
         window.location.href = '/'
@@ -15,15 +14,6 @@ function ViewComplaint() {
     const addcomplaint=()=>{
         window.location.href = '/addcomplaint'
         console.log('you click the back home page');
-    }
-    const dbPage=()=>{
-        setShowdbpage(true)
-        console.log('dbpage click');
-        try {
-            fetchData()
-        } catch (event) {
-            console.error("Error adding document: ", event);
-        }
     }
     const fetchData = async ()=>{
         console.log('heeeeee');
@@ -53,10 +43,9 @@ function ViewComplaint() {
             </div>
             <div>
                 <h1 className='subheader'> See Firebase Database</h1>
-                <button className='button2' onClick={dbPage}>See Database</button>
             </div>
             <div>
-                {showdbpage && <Details userdetail={cd} custDelete={setCd} fetchData1={fetchData}/> }
+                {<Details userdetail={cd} custDelete={setCd} fetchData1={fetchData}/> }
             </div>
             
         </div>
