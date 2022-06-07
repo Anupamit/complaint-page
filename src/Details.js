@@ -16,6 +16,9 @@ function Details(props) {
         // })
         // props.custDelete(delnew)
     }
+    const editUser=async(event, i, detailData)=>{
+       window.location.href = `editcomplaint?id=${detailData.id}&name=${detailData.name}`
+    }
     
     return (
         <div>
@@ -24,6 +27,7 @@ function Details(props) {
                     <thead>
                         <tr>
                             <th>Solved </th>
+                            <th>Update </th>
                             <th>Name </th>
                             <th>MobileNo </th>
                             <th>Complaint Type </th>
@@ -36,6 +40,7 @@ function Details(props) {
                             return(
                                 <tr key={i}>
                                     <td><button className='btn1' onClick={(event)=>deleteUsr(event, i, detail.id)}>X</button></td>
+                                    <td><button className='btn1' onClick={(event)=>editUser(event, i, detail)}>Edit</button></td>
                                     <td>{detail.name}</td>
                                     <td>{detail.mobileno}</td>
                                     <td>{detail.complaintType}</td>
@@ -52,3 +57,5 @@ function Details(props) {
 }
 
 export default Details
+
+// /editcomplaint?id=123456
