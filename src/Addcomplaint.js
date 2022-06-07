@@ -16,8 +16,8 @@ function Addcomplaint() {
         window.location.href = '/'
         console.log('you click the back home page');
     }
-    const editPage=()=>{
-        window.location.href = '/editcomplaint'
+    const viewComplaint=()=>{
+        window.location.href = '/viewcomplaints'
         console.log('you click the edit complaint page');
     }
 
@@ -107,7 +107,7 @@ function Addcomplaint() {
                 <header className='header1'>
                     <h1>The Presidents School</h1>
                     <button className='buttonnav' onClick={backHome}>Back Home</button>
-                    <button className='buttonnav2' onClick={editPage}>Edit Complaint</button>
+                    <button className='buttonnav2' onClick={viewComplaint}>View Complaint</button>
                 </header>
         </div>
         <div className='form'>
