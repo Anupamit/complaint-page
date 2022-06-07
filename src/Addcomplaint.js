@@ -86,7 +86,7 @@ function Addcomplaint() {
             const ref = collection(db, "complaints")
             const docRef = await addDoc(ref, print);
             console.log("Document written with ID: ", docRef.id);
-            // payment
+            alert('Form Submitted')
         } catch (event) {
             console.error("Error adding document: ", event);
             // refund
