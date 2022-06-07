@@ -1,0 +1,36 @@
+/* .App {
+    text-align: center;
+} */
+
+.navbar{
+    background-color: dodgerblue;
+    color: white;
+    overflow: visible;
+}
+.buttonnav {
+    float: none;
+    display: block;
+    text-align: center;
+    position: fixed;
+    background-color: green;
+    color: white;
+    width: 10%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 16px;
+    margin: 0;
+    padding: 12px 20px;
+    right: 28px;
+    bottom: 495px;
+}
+.header1 {
+    background-color: DodgerBlue;
+    padding: 3px;
+    text-align: center;
+}
+
+.knowmessage{
+    text-align: center;
+    padding: 200px 50px;
+}
